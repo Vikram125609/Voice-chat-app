@@ -1,4 +1,4 @@
-const wss = new WebSocket('wss://voice-chat-app-eight.vercel.app/ws');
+const wss = new WebSocket('wss://voice-chat-app-eight.vercel.app:8000');
 
 var madiaRecorder;
 
