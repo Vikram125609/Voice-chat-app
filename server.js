@@ -62,6 +62,6 @@ server.on('upgrade', (request, socket, head) => {
     });
 });
 
-server.listen(8000, () => {
-    console.log('Server listening on port 8000');
+server.listen(80, () => {
+    console.log('Server listening on port 80');
 });
