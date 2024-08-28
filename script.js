@@ -1,9 +1,10 @@
 // const wss = new WebSocket('wss://voice-chat-app-eight.vercel.app:8000');
 let wss = new WebSocket('wss://c2cjobs.org/call');
+// let wss = new WebSocket('ws://localhost:8000');
 
 var madiaRecorder;
 
-navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+navigator.mediaDevices.getUserMedia({ audio: true, video: true })
     .then((stream) => {
         madiaRecorder = new MediaRecorder(stream);
         var audioChunks = [];
@@ -40,7 +41,7 @@ function stopAndStart() {
             madiaRecorder.stop();
         }
         madiaRecorder.start();
-    }, 900);
+    }, 2000);
 }
 
 setTimeout(() => {
@@ -56,7 +57,7 @@ wss.onopen = () => {
 
 wss.onmessage = (event) => {
     const base64String = event.data;
-    const audioBlob = base64ToBlob(base64String.split(',')[1], 'audio/webm');
+    const audioBlob = base64ToBlob(base64String.split(',')[1], 'video/mp4');
     const audioURL = URL.createObjectURL(audioBlob);
     const audioElement = document.getElementById('audio');
     audioElement.src = audioURL;
@@ -64,7 +65,7 @@ wss.onmessage = (event) => {
 };
 
 wss.onclose = () => {
-    wss = new WebSocket('wss://c2cjobs.org/call');
+    console.log("Connection closed!");
 };
 
 function base64ToBlob(base64, mimeType) {
