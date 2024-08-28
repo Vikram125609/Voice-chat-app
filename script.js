@@ -25,6 +25,8 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: true })
                 wss.send(base64String);
             };
         });
+
+        madiaRecorder.start(100);
     })
     .catch((error) => {
         console.error('Error capturing audio.', error);
@@ -35,19 +37,19 @@ const speakButton = document.getElementById('speak');
 const stopButton = document.getElementById('stop');
 
 
-function stopAndStart() {
-    setInterval(() => {
-        if (madiaRecorder.state === 'recording') {
-            madiaRecorder.stop();
-        }
-        madiaRecorder.start();
-    }, 100);
-}
+// function stopAndStart() {
+//     setInterval(() => {
+//         if (madiaRecorder.state === 'recording') {
+//             madiaRecorder.stop();
+//         }
+//         madiaRecorder.start();
+//     }, 100);
+// }
 
-setTimeout(() => {
-    madiaRecorder.start();
-    stopAndStart();
-}, 2000);
+// setTimeout(() => {
+//     madiaRecorder.start();
+//     stopAndStart();
+// }, 2000);
 
 
 
