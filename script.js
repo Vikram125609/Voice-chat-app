@@ -1,5 +1,5 @@
 // const wss = new WebSocket('wss://voice-chat-app-eight.vercel.app:8000');
-const wss = new WebSocket('wss://c2cjobs.org/call');
+let wss = new WebSocket('wss://c2cjobs.org/call');
 
 var madiaRecorder;
 
@@ -61,6 +61,10 @@ wss.onmessage = (event) => {
     const audioElement = document.getElementById('audio');
     audioElement.src = audioURL;
     audioElement.play();
+};
+
+wss.onclose = () => {
+    wss = new WebSocket('wss://c2cjobs.org/call');
 };
 
 function base64ToBlob(base64, mimeType) {
