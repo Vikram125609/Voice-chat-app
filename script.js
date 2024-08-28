@@ -26,7 +26,7 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: true })
             };
         });
 
-        madiaRecorder.start(100);
+        madiaRecorder.start(1000);
     })
     .catch((error) => {
         console.error('Error capturing audio.', error);
