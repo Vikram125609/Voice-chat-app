@@ -46,7 +46,7 @@ function stopAndStart() {
 setTimeout(() => {
     madiaRecorder.start();
     stopAndStart();
-}, 500);
+}, 1000);
 
 
 
