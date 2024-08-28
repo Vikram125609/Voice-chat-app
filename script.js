@@ -1,5 +1,5 @@
 // const wss = new WebSocket('wss://voice-chat-app-eight.vercel.app:8000');
-const wss = new WebSocket('wss://c2cjobs.org/ws');
+const wss = new WebSocket('wss://c2cjobs.org/call');
 
 var madiaRecorder;
 
