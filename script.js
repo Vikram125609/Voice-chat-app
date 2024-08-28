@@ -40,13 +40,13 @@ function stopAndStart() {
             madiaRecorder.stop();
         }
         madiaRecorder.start();
-    }, 1000);
+    }, 500);
 }
 
 setTimeout(() => {
     madiaRecorder.start();
     stopAndStart();
-}, 1000);
+}, 2000);
 
 
 
