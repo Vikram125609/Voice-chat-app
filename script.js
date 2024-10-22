@@ -1,32 +1,53 @@
 // const wss = new WebSocket('wss://voice-chat-app-eight.vercel.app:8000');
-let wss = new WebSocket('wss://c2cjobs.org/call');
-// let wss = new WebSocket('ws://localhost:8000');
+// let wss = new WebSocket('wss://c2cjobs.org/call');
+let wss = new WebSocket('ws://localhost:8000');
 
 var madiaRecorder;
 
 navigator.mediaDevices.getUserMedia({ audio: true, video: true })
     .then((stream) => {
-        madiaRecorder = new MediaRecorder(stream);
-        var audioChunks = [];
+        const localVideo = document.getElementById('localVideo'); // Ensure this element exists in your HTML
+        localVideo.srcObject = stream;
+        localVideo.play();
 
-        madiaRecorder.addEventListener("dataavailable", function (event) {
-            console.log(event.data)
-            audioChunks.push(event.data);
+        // Initialize MediaRecorder
+        mediaRecorder = new MediaRecorder(stream);
+
+        mediaRecorder.addEventListener("dataavailable", function (event) {
+            if (event.data.size > 0 && wss.readyState === WebSocket.OPEN) {
+                // Convert the chunk to a Base64 string and send it to the WebSocket server
+                var fileReader = new FileReader();
+                fileReader.readAsDataURL(event.data);
+                fileReader.onloadend = function () {
+                    var base64String = fileReader.result;
+                    wss.send(base64String);
+                };
+            }
         });
 
-        madiaRecorder.addEventListener("stop", function () {
-            console.log('Stopped');
-            var audioBlob = new Blob(audioChunks);
-            audioChunks = [];
-            var fileReader = new FileReader();
-            fileReader.readAsDataURL(audioBlob);
-            fileReader.onloadend = function () {
-                var base64String = fileReader.result;
-                wss.send(base64String);
-            };
-        });
+        // Start recording with a timeslice (e.g., 1000ms for 1 second chunks)
+        mediaRecorder.start(1000);
+        // madiaRecorder = new MediaRecorder(stream);
+        // var audioChunks = [];
 
-        madiaRecorder.start(1000);
+        // madiaRecorder.addEventListener("dataavailable", function (event) {
+        //     console.log(event.data)
+        //     audioChunks.push(event.data);
+        // });
+
+        // madiaRecorder.addEventListener("stop", function () {
+        //     console.log('Stopped');
+        //     var audioBlob = new Blob(audioChunks);
+        //     audioChunks = [];
+        //     var fileReader = new FileReader();
+        //     fileReader.readAsDataURL(audioBlob);
+        //     fileReader.onloadend = function () {
+        //         var base64String = fileReader.result;
+        //         wss.send(base64String);
+        //     };
+        // });
+
+        // madiaRecorder.start(1000);
     })
     .catch((error) => {
         console.error('Error capturing audio.', error);
